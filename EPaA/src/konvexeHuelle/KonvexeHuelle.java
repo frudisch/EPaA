@@ -17,8 +17,6 @@ public class KonvexeHuelle {
 		//print(points);
 		Collections.sort(points);
 		//print(points);
-		points.add(0, new Point(0.0, 0.0));
-		print(points);
 		huelle = calculate(points);
 		print(huelle);
 	}
