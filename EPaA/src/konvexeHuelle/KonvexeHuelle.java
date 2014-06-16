@@ -7,21 +7,39 @@ public class KonvexeHuelle {
 
 	public KonvexeHuelle() {
 		ArrayList<Point> points = new ArrayList<Point>();
-		ArrayList<Point> huelle = new ArrayList<Point>();
-		Point minimum;
 		
 		initArr(points);
-		minimum = findMin(points);
-		//System.out.println(minimum.getX() + " / " + minimum.getY());
-		normalize(points, minimum);
-		//print(points);
-		Collections.sort(points);
-		//print(points);
-		huelle = calculate(points);
-		print(huelle);
+		
+		//grahamScanAlg(points);
+		jarvisMarchAlg(points);
+	}
+	
+	
+	private ArrayList<Point> calculateJarvis(ArrayList<Point> points, Point minimum) {
+		ArrayList<Point> huelle = new ArrayList<Point>();
+		ArrayList<Point> temp = new ArrayList<Point>();
+		Point maxPoint = null;
+		int max = 0;
+		
+		temp = normalize(points, minimum);
+		for (int i = 0; i < points.size(); i++){
+			for (int j = 0; j < temp.size() - 1; j++) {
+				if((points.get(j).compareTo(points.get(j + 1)) > max)){
+					max = points.get(j).compareTo(points.get(j + 1));
+					maxPoint = points.get(j);
+				}
+			}
+			huelle.add(maxPoint);
+			temp = normalize(points, huelle.get(huelle.size() - 1));
+			if((huelle.size() > 0) && (huelle.get(huelle.size() - 1) == minimum)){
+				break;
+			}
+		}
+		
+		return huelle;
 	}
 
-	private ArrayList<Point> calculate(ArrayList<Point> points) {
+	private ArrayList<Point> calculateGraham(ArrayList<Point> points) {
 		ArrayList<Point> rc = new ArrayList<Point>();
 		
 		for(int i = 0; i < points.size() - 1; i++){
@@ -29,7 +47,7 @@ public class KonvexeHuelle {
 				rc.add(points.get(i));
 			}else{
 				for(int j = i + 1; j < points.size() - 1; j++){
-					if((points.get(i).compareTo(points.get(j + 1)) < 0)){
+					if((points.get(j).compareTo(points.get(j + 1)) < 0)){
 						rc.add(points.get(j));
 						i = j;
 						break;
@@ -40,11 +58,14 @@ public class KonvexeHuelle {
 		return rc;
 	}
 
-	private void normalize(ArrayList<Point> points, Point minimum) {
+	private ArrayList<Point> normalize(ArrayList<Point> points, Point minimum) {
+		ArrayList<Point> rc = new ArrayList<Point>();
+		
 		for (int i = 0; i < points.size(); i++) {
-			points.get(i).setX(points.get(i).getX() - minimum.getX());
-			points.get(i).setY(points.get(i).getY() - minimum.getY());
+			rc.add(new Point(points.get(i).getX() - minimum.getX(), points.get(i).getY() - minimum.getY()));
 		}
+		
+		return rc;
 	}
 
 	private Point findMin(ArrayList<Point> points ) {
@@ -65,6 +86,31 @@ public class KonvexeHuelle {
 		System.out.println("\n");
 		
 	}
+
+	private void jarvisMarchAlg(ArrayList<Point> points) {
+		ArrayList<Point> huelle = new ArrayList<Point>();
+		Point minimum;
+		
+		print(points);
+		minimum = findMin(points);
+		huelle = calculateJarvis(points, minimum);
+		print(huelle);
+	}
+
+	private void grahamScanAlg(ArrayList<Point> points) {
+		ArrayList<Point> huelle = new ArrayList<Point>();
+		Point minimum;
+		
+		minimum = findMin(points);
+		//System.out.println(minimum.getX() + " / " + minimum.getY());
+		normalize(points, minimum);
+		//print(points);
+		Collections.sort(points);
+		//print(points);
+		huelle = calculateGraham(points);
+		print(huelle);
+	}
+
 	private void initArr(ArrayList<Point> points ) {
 		points.add(new Point(3.9, 5.1));
 		points.add(new Point(6, 2));
