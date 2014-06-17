@@ -10,36 +10,36 @@ public class KonvexeHuelle {
 		
 		initArr(points);
 		
-		grahamScanAlg(points);
-		//jarvisMarchAlg(points);
+		//grahamScanAlg(points);
+		jarvisMarchAlg(points);
 	}
 	
 	
 	private ArrayList<Point> calculateJarvis(ArrayList<Point> points, Point minimum) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		ArrayList<Point> temp = new ArrayList<Point>();
-		Point maxPoint;
-		int pos = 0;
+		boolean found = false;
 		
 		huelle.add(minimum);
 		for (int i = 0; i < points.size(); i++) {
 			temp = normalize(points, huelle.get(huelle.size() - 1));
-			print(temp);
-			maxPoint = temp.get(0);
-			for (int j = 0; j < temp.size() - 1; j++) {				
-				if(true) {
-					maxPoint = temp.get(j);
-					pos = j;
+			found = false;
+			for (int j = 0; j < temp.size(); j++) {					
+				for (int z = 0; z < temp.size(); z++) {
+					if(temp.get(j).compareTo(temp.get(z)) < 0){
+						found = true;
+						break;
+					}
 				}
+				if(!found){
+					huelle.add(points.get(j));
+					points.remove(j);
+					break;
+				}
+				found = false;
 			}
-			maxPoint.setX(maxPoint.getX() + huelle.get(huelle.size() - 1).getX());
-			maxPoint.setY(maxPoint.getY() + huelle.get(huelle.size() - 1).getY());
-			huelle.add(maxPoint);
-			points.remove(pos);
-			if(huelle.get(huelle.size() - 1).getX() == minimum.getX() && huelle.get(huelle.size() - 1).getY() == minimum.getY() && huelle.size() > 1){
-				System.out.println("hier");
-				break;
-			}
+			
+			if(huelle.get(huelle.size() - 1).equals(minimum)) break;
 		}
 		
 		return huelle;
@@ -53,8 +53,8 @@ public class KonvexeHuelle {
 			if((points.get(i).compareTo(points.get(i + 1)) < 0)){
 				rc.add(points.get(i));
 			}else{
-				before = rc.size() - 1;
-				for(int j = i + 1; j < points.size() - 1; j++){
+				before = rc.size();
+				for(int j = i; j < points.size() - 1; j++){
 					rc.add(points.get(j));
 					if((points.get(j).compareTo(points.get(j + 1)) < 0)){
 						for (int z = before; z < rc.size() - 1;) {
@@ -123,15 +123,20 @@ public class KonvexeHuelle {
 	}
 
 	private void initArr(ArrayList<Point> points ) {
-		points.add(new Point(3.9, 5.1));
-		points.add(new Point(6, 2));
-		points.add(new Point(4.4, 3.5));
-		points.add(new Point(2.3, 4.5));
-		points.add(new Point(4, 3));
-		points.add(new Point(5.8, 3.6));
-		points.add(new Point(5.4, 4));
-		points.add(new Point(2, 1));
-		points.add(new Point(4.8, 5.3));
+//		points.add(new Point(3.9, 5.1));
+//		points.add(new Point(6, 2));
+//		points.add(new Point(4.4, 3.5));
+//		points.add(new Point(2.3, 4.5));
+//		points.add(new Point(4, 3));
+//		points.add(new Point(5.8, 3.6));
+//		points.add(new Point(5.4, 4));
+//		points.add(new Point(2, 1));
+//		points.add(new Point(4.8, 5.3));
+		for (int i = 0; i < 21; i++) {
+			double x = 10 * Math.random();
+			double y = 10 * Math.random();
+			points.add(new Point(x, y));
+		}
 	}
 
 	public static void main(String[] args) {
