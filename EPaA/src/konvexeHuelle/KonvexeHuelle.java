@@ -10,28 +10,34 @@ public class KonvexeHuelle {
 		
 		initArr(points);
 		
-		//grahamScanAlg(points);
-		jarvisMarchAlg(points);
+		grahamScanAlg(points);
+		//jarvisMarchAlg(points);
 	}
 	
 	
 	private ArrayList<Point> calculateJarvis(ArrayList<Point> points, Point minimum) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		ArrayList<Point> temp = new ArrayList<Point>();
-		Point maxPoint = null;
-		int max = 0;
+		Point maxPoint;
+		int pos = 0;
 		
-		temp = normalize(points, minimum);
-		for (int i = 0; i < points.size(); i++){
-			for (int j = 0; j < temp.size() - 1; j++) {
-				if((points.get(j).compareTo(points.get(j + 1)) > max)){
-					max = points.get(j).compareTo(points.get(j + 1));
-					maxPoint = points.get(j);
+		huelle.add(minimum);
+		for (int i = 0; i < points.size(); i++) {
+			temp = normalize(points, huelle.get(huelle.size() - 1));
+			print(temp);
+			maxPoint = temp.get(0);
+			for (int j = 0; j < temp.size() - 1; j++) {				
+				if(true) {
+					maxPoint = temp.get(j);
+					pos = j;
 				}
 			}
+			maxPoint.setX(maxPoint.getX() + huelle.get(huelle.size() - 1).getX());
+			maxPoint.setY(maxPoint.getY() + huelle.get(huelle.size() - 1).getY());
 			huelle.add(maxPoint);
-			temp = normalize(points, huelle.get(huelle.size() - 1));
-			if((huelle.size() > 0) && (huelle.get(huelle.size() - 1) == minimum)){
+			points.remove(pos);
+			if(huelle.get(huelle.size() - 1).getX() == minimum.getX() && huelle.get(huelle.size() - 1).getY() == minimum.getY() && huelle.size() > 1){
+				System.out.println("hier");
 				break;
 			}
 		}
@@ -41,17 +47,22 @@ public class KonvexeHuelle {
 
 	private ArrayList<Point> calculateGraham(ArrayList<Point> points) {
 		ArrayList<Point> rc = new ArrayList<Point>();
+		int before;
 		
 		for(int i = 0; i < points.size() - 1; i++){
 			if((points.get(i).compareTo(points.get(i + 1)) < 0)){
 				rc.add(points.get(i));
 			}else{
+				before = rc.size() - 1;
 				for(int j = i + 1; j < points.size() - 1; j++){
+					rc.add(points.get(j));
 					if((points.get(j).compareTo(points.get(j + 1)) < 0)){
-						rc.add(points.get(j));
+						for (int z = before; z < rc.size() - 1;) {
+							rc.remove(z);
+						}
 						i = j;
 						break;
-					}
+					}					
 				}
 			}
 		}
@@ -103,10 +114,10 @@ public class KonvexeHuelle {
 		
 		minimum = findMin(points);
 		//System.out.println(minimum.getX() + " / " + minimum.getY());
-		normalize(points, minimum);
+		points = normalize(points, minimum);
 		//print(points);
 		Collections.sort(points);
-		//print(points);
+		print(points);
 		huelle = calculateGraham(points);
 		print(huelle);
 	}
