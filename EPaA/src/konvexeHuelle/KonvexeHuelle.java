@@ -10,8 +10,9 @@ public class KonvexeHuelle {
 		
 		initArr(points);
 		
-		//grahamScanAlg(points);
-		jarvisMarchAlg(points);
+		print(points);
+		grahamScanAlg(points);
+		//jarvisMarchAlg(points);
 	}
 	
 	
@@ -52,28 +53,33 @@ public class KonvexeHuelle {
 
 
 	private ArrayList<Point> calculateGraham(ArrayList<Point> points) {
-		ArrayList<Point> rc = new ArrayList<Point>();
-		int before;
+		ArrayList<Point> huelle = new ArrayList<Point>();
 		
 		for(int i = 0; i < points.size() - 1; i++){
 			if((points.get(i).compareTo(points.get(i + 1)) < 0)){
-				rc.add(points.get(i));
+				System.out.println("hier");
+				huelle.add(points.get(i));
 			}else{
-				before = rc.size();
-				for(int j = i; j < points.size() - 1; j++){
-					rc.add(points.get(j));
+				for (int j = i + 1; j < points.size() - 1; j++) {
+					huelle.add(points.get(j));
 					if((points.get(j).compareTo(points.get(j + 1)) < 0)){
-						for (int z = before; z < rc.size() - 1;) {
-							rc.remove(z);
-						}
-						i = j;
+						reverse(huelle, i);
+						i = j + 1;
 						break;
-					}					
+					}
 				}
+				
 			}
 		}
-		return rc;
+		return huelle;
 	}
+
+	private void reverse(ArrayList<Point> huelle, int start) {
+		for (int i = huelle.size() - 2; i > start; i--) {
+			huelle.remove(i);
+		}
+	}
+
 
 	private ArrayList<Point> normalize(ArrayList<Point> points, Point minimum) {
 		ArrayList<Point> rc = new ArrayList<Point>();
@@ -123,27 +129,38 @@ public class KonvexeHuelle {
 	private void grahamScanAlg(ArrayList<Point> points) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		int minimum;
+		Point min;
 		
 		minimum = findMin(points);
-		//System.out.println(minimum.getX() + " / " + minimum.getY());
-		//points = normalize(points, minimum);
-		//print(points);
+		min = points.get(minimum);
+		points = normalize(points, points.get(minimum));
 		Collections.sort(points);
-		print(points);
 		huelle = calculateGraham(points);
+		huelle = unnormalize(points, min);
 		print(huelle);
 	}
 
+	private ArrayList<Point> unnormalize(ArrayList<Point> points, Point min) {
+			ArrayList<Point> rc = new ArrayList<Point>();
+		
+		for (int i = 0; i < points.size(); i++) {
+			rc.add(new Point(points.get(i).getX() + min.getX(), points.get(i).getY() + min.getY()));
+		}
+		
+		return rc;
+	}
+
+
 	private void initArr(ArrayList<Point> points ) {
-//		points.add(new Point(3.9, 5.1));
-//		points.add(new Point(6, 2));
-//		points.add(new Point(4.4, 3.5));
-//		points.add(new Point(2.3, 4.5));
-//		points.add(new Point(4, 3));
-//		points.add(new Point(5.8, 3.6));
-//		points.add(new Point(5.4, 4));
-//		points.add(new Point(2, 1));
-//		points.add(new Point(4.8, 5.3));
+		points.add(new Point(3.9, 5.1));
+		points.add(new Point(6, 2));
+		points.add(new Point(4.4, 3.5));
+		points.add(new Point(2.3, 4.5));
+		points.add(new Point(4, 3));
+		points.add(new Point(5.8, 3.6));
+		points.add(new Point(5.4, 4));
+		points.add(new Point(2, 1));
+		points.add(new Point(4.8, 5.3));
 		
 //		points.add(new Point(5.339623281898355,1.1432026704372678));
 //		points.add(new Point(5.619436397151166,5.1961454604133746));
@@ -161,11 +178,11 @@ public class KonvexeHuelle {
 //		points.add(new Point(2.399760522111545,5.166447944002396));
 //		points.add(new Point(1.4139413442519744,6.686921334857699));
 		
-		for (int i = 0; i < 20; i++) {
-			double x = 10 * Math.random();
-			double y = 10 * Math.random();
-			points.add(new Point(x, y));
-		}
+//		for (int i = 0; i < 20; i++) {
+//			double x = 10 * Math.random();
+//			double y = 10 * Math.random();
+//			points.add(new Point(x, y));
+//		}
 	}
 
 	public static void main(String[] args) {
