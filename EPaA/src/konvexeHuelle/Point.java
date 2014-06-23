@@ -27,7 +27,9 @@ public class Point implements Comparable<Point>{
 	}
 
 	public int compareTo(Point arg0) {
-		return (int) ((-1) * (arg0.getY() * x - arg0.getX() * y));
+		if ((arg0.getY() * x - arg0.getX() * y) < 0) return -1;
+		else if((arg0.getY() * x - arg0.getX() * y) == 0) return 0;
+		else return 1;
 	}
 
 }
