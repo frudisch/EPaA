@@ -42,7 +42,25 @@ public class SimpleDraw extends JPanel {
 
 
     public void drawLine(int x1, int y1, int x2, int y2, Color c) {
-        // Implement line drawing
+    	int dx=x2 - x1;
+    	int dx2=2*dx;
+    	int dy2=2*(y2 - y1);
+    	
+    	int xi=x1;
+    	int yi=y1;
+    	
+    	int erri =-dx;
+    	
+    	while(xi<=x2) {
+    		setPoint ( xi , yi, c );
+    		erri += dy2;
+        
+    		if (erri>=0) {
+    			yi++;
+    			erri+=dx2;
+    		}
+    		xi++;
+    	}
         repaint();
     }
 
@@ -59,8 +77,11 @@ public class SimpleDraw extends JPanel {
 
     public void setPoint(int x, int y, Color c)
     {
+    	Dimension dim = getPreferredSize();
+    	x += dim.getWidth()/2;
+    	y = (int) (dim.getHeight()/2 - y);
         int color = c.getRGB();
-	mCanvas.setRGB(x, y, color);
+        mCanvas.setRGB(x, y, color);
     }
 
     public static void main(String[] args) {
@@ -76,11 +97,17 @@ public class SimpleDraw extends JPanel {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-	panel.fillCanvas(Color.RED);
-	for (int i=0; i<123; ++i)
-	    panel.setPoint(i,i, Color.BLUE);
+        panel.fillCanvas(Color.WHITE);
+        panel.setPoint(0, 0, Color.BLACK);
+        
+        for (int i = -30; i < 30; i++) {
+			panel.setPoint(0, i, Color.green);
+			panel.setPoint(i, 0, Color.green);
+		}
 
-	panel.repaint();
+        panel.drawLine(10, 10, 100, 80, Color.black);
+        
+        panel.repaint();
     }
 
 

@@ -4,11 +4,11 @@ import java.util.Random;
 public class HullAlg {
 	
 	public static void main(String[] args) {
-		Point[] points = new Point[15];
+		Point[] points = new Point[20];
 		
 		Random rand = new Random(150);
 		for (int i = 0; i < points.length; i++) {
-			points[i] = new Point(rand.nextDouble()*10, rand.nextDouble()*10);
+			points[i] = new Point(Math.random()*10, Math.random()*10);
 		}
 		
 		HullAlg test = new HullAlg();
