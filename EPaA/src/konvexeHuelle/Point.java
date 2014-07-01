@@ -31,9 +31,7 @@ public class Point implements Comparable<Point>{
 		System.out.println(temp);
 		temp = Math.signum(temp);
 		
-		if(temp > 0) return 1;
-		else if(temp < 0) return -1;
-		return 0;
+		return Double.compare(temp, 0.0);
 	}
 
 }
