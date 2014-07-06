@@ -42,24 +42,31 @@ public class SimpleDraw extends JPanel {
 
 
     public void drawLine(int x1, int y1, int x2, int y2, Color c) {
-    	int dx=x2 - x1;
+    	int dx = x2 - x1;
+    	int dy = y2 - y1;
     	int dx2=2*dx;
-    	int dy2=2*(y2 - y1);
+    	int dy2=2*dy;
     	
     	int xi=x1;
     	int yi=y1;
     	
-    	int erri =-dx;
+    	int erry =-dx;
+    	int errx =-dy;
     	
     	while(xi<=x2) {
     		setPoint ( xi , yi, c );
-    		erri += dy2;
+    		erry += dy2;
+    		errx += dx2;
         
-    		if (erri>=0) {
+    		if (erry>=0) {
     			yi++;
-    			erri+=dx2;
+    			erry+=dx2;
     		}
-    		xi++;
+    		
+    		if(errx>=0){
+        		xi++;
+        		errx+=dy2;
+    		}
     	}
         repaint();
     }
@@ -105,7 +112,7 @@ public class SimpleDraw extends JPanel {
 			panel.setPoint(i, 0, Color.green);
 		}
 
-        panel.drawLine(10, 10, 100, 80, Color.black);
+        panel.drawLine(10, 10, 100, -80, Color.black);
         
         panel.repaint();
     }
