@@ -19,52 +19,15 @@ public class KonvexeHuelle {
 //		end = System.currentTimeMillis();
 //		System.out.println("Jarvis: "  + ((end - start) / 1000.0));
 //		
-		try{
-			start = System.currentTimeMillis();
-			grahamScanAlg(points2);
-			end = System.currentTimeMillis();
-		}catch(Exception e){
-			System.err.println("Fehler");
-			print(points2);
-		}
+		start = System.currentTimeMillis();
+		grahamScanAlg(points2);
+		end = System.currentTimeMillis();
+		
 		System.out.println("Graham: "  + ((end - start) / 1000.0));
 		
 //		hullAlg(points3);
 	}
-
-
-	private void hullAlg(ArrayList<Point> points) {
-		ArrayList<Point> p1 = new ArrayList<>();
-		ArrayList<Point> p2 = new ArrayList<>();
-		Point minX;
-		Point maxX;
-		
-		minX = findMinX(points);
-		maxX = findMaxX(points);
-		
-		
-	}
-
-	private Point findMaxX(ArrayList<Point> points) {
-		Point temp;
-		temp = points.get(0);
-		for (int i = 1; i < points.size(); i++) {
-			if(points.get(1).getX() > temp.getX()) temp = points.get(i);
-		}
-		return temp;
-	}
-
-
-	private Point findMinX(ArrayList<Point> points) {
-		Point temp;
-		temp = points.get(0);
-		for (int i = 1; i < points.size(); i++) {
-			if(points.get(1).getX() < temp.getX()) temp = points.get(i);
-		}
-		return temp;
-	}
-
-
+	
 	private ArrayList<Point> calculateJarvis(ArrayList<Point> points, int minimum) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		ArrayList<Point> temp = new ArrayList<Point>();
