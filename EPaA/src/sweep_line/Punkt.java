@@ -1,6 +1,6 @@
 package sweep_line;
 
-public class Punkt {
+public class Punkt implements Comparable<Punkt> {
 	private double x;
 	private double y;
 
@@ -23,5 +23,9 @@ public class Punkt {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	public int compareTo(Punkt o) {
+		return Double.compare(this.x, o.getX());
 	}
 }
