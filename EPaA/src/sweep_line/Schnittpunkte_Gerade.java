@@ -25,12 +25,23 @@ public class Schnittpunkte_Gerade {
 		}
 		
 		for (int i = 0; i < lines.length; i++) {
+			int schnittStellenCounter = 0;
 			j = i + 1;
 			
 			activeLines.add(lines[i]);
 			while(lines[i].getStart().getX() == lines[j].getStart().getX()){
 				activeLines.add(lines[j]);
 				++j;
+			}
+			
+			for (int k = 0; k < lines.length; k++) {
+				if(activeLines.get(k).getStart().getX() == activeLines.get(k).getEnde().getX()){
+					for (int inActiveLines = 0; inActiveLines < activeLines.size(); inActiveLines++) {
+						if(activeLines.get(inActiveLines).getStart().getY() <= activeLines.get(k).getStart().getY() && activeLines.get(inActiveLines).getStart().getY() <= activeLines.get(k).getEnde().getY()){
+							++schnittStellenCounter;
+						}
+					}
+				}
 			}
 			
 			for (int k = 0; k < activeLines.size() - j - 1; k++) {
