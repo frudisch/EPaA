@@ -20,7 +20,7 @@ public class GeringsterAbstand {
 	private Punkt[] init() {
 		ArrayList<Punkt> list = new ArrayList<Punkt>();
 		
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			double x = Math.random()*10000000;
 			double y = Math.random()*10000000;
 			list.add(new Punkt(x, y));
@@ -76,20 +76,18 @@ public class GeringsterAbstand {
 			temp = berechne(array[i].getX(), array[i].getY(), array[i + 1].getX(), array[i + 1].getY());
 			if(minAbstand > temp){
 				minAbstand = temp;
+				++counter;
 			}else{
 				j = i + 1;
-				while(j < array.length && minAbstand <= array[i].getX() - array[j].getX() ){
+				while(j < array.length && minAbstand <= array[j].getX() - array[i].getX() ){
 					temp = berechne(array[i].getX(), array[i].getY(), array[j].getX(), array[j].getY());
 					if(minAbstand > temp){
-						i = j;
 						minAbstand = temp;
 					}
 					j++;
 					++counter;
-					i = j;
 				}
 			}
-			++counter;
 		}
 		
 		System.out.println(counter + " / " + array.length);
