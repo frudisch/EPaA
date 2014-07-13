@@ -72,21 +72,15 @@ public class GeringsterAbstand {
 		}
 		
 		minAbstand = berechne(array[0].getX(), array[0].getY(), array[1].getX(), array[1].getY());
-		for (int i = 1; i < array.length - 1; i++) {
-			temp = berechne(array[i].getX(), array[i].getY(), array[i + 1].getX(), array[i + 1].getY());
-			if(minAbstand > temp){
-				minAbstand = temp;
-				++counter;
-			}else{
-				j = i + 1;
-				while(j < array.length && minAbstand <= array[j].getX() - array[i].getX() ){
-					temp = berechne(array[i].getX(), array[i].getY(), array[j].getX(), array[j].getY());
-					if(minAbstand > temp){
-						minAbstand = temp;
-					}
-					j++;
-					++counter;
+		for (int i = 0; i < array.length - 1; i++) {
+			j = i + 1;
+			while(j < array.length && minAbstand >= array[j].getX() - array[i].getX() ){
+				temp = berechne(array[i].getX(), array[i].getY(), array[j].getX(), array[j].getY());
+				if(minAbstand > temp){
+					minAbstand = temp;
 				}
+				j++;
+				++counter;
 			}
 		}
 		

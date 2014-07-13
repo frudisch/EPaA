@@ -28,6 +28,7 @@ public class KonvexeHuelle {
 //		hullAlg(points3);
 	}
 	
+	//hier Jarvis-March-Algorithmus
 	private ArrayList<Point> calculateJarvis(ArrayList<Point> points, int minimum) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		ArrayList<Point> temp = new ArrayList<Point>();
@@ -63,7 +64,7 @@ public class KonvexeHuelle {
 		return true;
 	}
 
-
+	//hier graham scan alg
 	private ArrayList<Point> calculateGraham(ArrayList<Point> points) {
 		ArrayList<Point> huelle = new ArrayList<Point>();
 		
